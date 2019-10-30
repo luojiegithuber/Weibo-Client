@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <!-- 定义一个用于显示头像的ImageView -->
+    <ImageView
+        android:id="@+id/imgtou"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:baselineAlignBottom="true"
+        android:paddingLeft="8dp" />
+
+    <!-- 定义一个竖直方向的LinearLayout,把QQ呢称与说说的文本框设置出来 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="8dp"
+            android:text="用户名"
+            android:textColor="#1D1D1C"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="30px"
+            android:paddingTop="50px"
+            android:text="昨天  20:30"
+            android:textColor="#B4B4B9"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/speak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="这是我要说的话
+        大家好"
+        android:textColor="#EA5246"
+        android:textStyle="bold|italic"
+        android:background="#FFFF00"
+        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/bt_forward"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddd"
+            android:text="转发"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/bt_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddd"
+            android:text="评论"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/bt_star"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddd"
+            android:text="点赞"/>
+
+    </LinearLayout>
+
+</LinearLayout>

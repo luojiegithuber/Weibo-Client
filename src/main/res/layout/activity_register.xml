@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:id="@+id/edit_username"
+        android:hint="请输入用户名"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:gravity="bottom"
+        android:hint="请输入密码"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:id="@+id/edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:gravity="bottom"
+        android:hint="请再次确认您的密码"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:id="@+id/edit_password_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/bt_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="注册"
+        />
+
+</LinearLayout>

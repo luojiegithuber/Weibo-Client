@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login"
+    android:stretchColumns="0,3"
+    tools:context="com.example.wechatlogin.MainActivity_WeChat">
+
+    <!--第一行-->
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="330dp"
+        >
+
+        <TextView />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:text="账  号:  "
+            android:textColor="#000000"
+            android:gravity="center_horizontal"
+            />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:hint="请输入账号"
+            />
+
+        <TextView />
+    </TableRow>
+
+    <!--第2行-->
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="20dp"
+        >
+
+        <TextView />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:text="密  码:  "
+            android:textColor="#000000"
+
+            android:gravity="center_horizontal"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:hint="输入6位密码,包括字母和数字"
+            />
+
+        <TextView />
+    </TableRow>
+    <!--第3行-->
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        >
+        <TextView />
+        <Button
+            android:id="@+id/bt_zhuce"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:text="注册"
+            />
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:text="登录"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bt"
+            />
+
+        <TextView />
+    </TableRow>
+    <!--第3行-->
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingTop="20dp"
+
+        >
+        <TextView />
+        <Button
+            android:id="@+id/bt_ok"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:text="OK"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bt"
+            />
+
+        <TextView
+            android:id="@+id/wang_password"
+            android:text="忘记密码？"
+            android:textColor="#FF4500"
+            android:gravity="right"
+            />
+        <TextView />
+    </TableRow>
+</TableLayout>
