@@ -2,10 +2,13 @@ package com.example.wechatlogin;
 
 
 public class weibo {
-    private int wHead;
+    private long id;
+    private int wHead=1;
     private String wName;
     private String wTime;
     private String wSpeak;
+    private int forward=0,comment=0,like=0;
+
     public weibo() {
     }
 
@@ -24,6 +27,10 @@ public class weibo {
     }
 
     //*************
+    public long getId() {
+        return id;
+    }
+
     public int getwHead() {
         return wHead;
     }

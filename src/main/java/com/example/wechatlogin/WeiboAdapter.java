@@ -44,6 +44,14 @@ public class WeiboAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void addAll(ArrayList<weibo> data) {
+        if (wData == null) {
+            wData = new ArrayList<>();
+        }//判空
+        wData.addAll(data);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -58,8 +66,8 @@ public class WeiboAdapter extends BaseAdapter {
         TextView txt_aSpeak = (TextView) convertView.findViewById(R.id.speak);//说说内容
 
         //Log.e("nnnn",wData.get(position).getwHead());
-        img_icon.setImageResource(wData.get(position).getwHead());
-        //img_icon.setImageResource(R.mipmap.ic_launcher);
+        //img_icon.setImageResource(wData.get(position).getwHead());
+        img_icon.setImageResource(R.mipmap.ic_launcher);
         txt_aName.setText(wData.get(position).getwName());
         txt_aTime.setText(wData.get(position).getwTime());
         txt_aSpeak.setText(wData.get(position).getwSpeak());

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.wechatlogin.util.HttpUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
 
 
 public class fg_list extends Fragment {
 
-    private Button button_test;
+    private Button button_test,button_get_weibo;
     private WeiboAdapter myAdapter=null;
     private FragmentManager fManager;
-    private ArrayList<weibo> datas;
+    private ArrayList<weibo> datas,new_datas;
     private ListView list_weibo;
+
+    //微博id，免得重复刷到一样的微博
+    private long weibo_id;
 
     //空构造函数
     public fg_list() {}
@@ -41,6 +54,7 @@ public class fg_list extends Fragment {
         list_weibo.setAdapter(myAdapter);//适配器与ListView关联
 
         button_test=(Button)view.findViewById(R.id.button_test);
+        button_get_weibo=(Button)view.findViewById(R.id.button_get_weibo);
 
         return view;
     }
@@ -53,11 +67,57 @@ public class fg_list extends Fragment {
        button_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"偷我按钮干嘛呀", Toast.LENGTH_LONG).show();//可行
-                myAdapter.add(new weibo(R.mipmap.ic_launcher,"Yao Jingxian","昨天00:30","睡不啄"));
+                if(new_datas.isEmpty()){
+                    Log.e("new是空的", "空的" );
+                    Toast.makeText(getActivity(),"还没有新的微博数据", Toast.LENGTH_SHORT).show();
+                }else{
+                    myAdapter.addAll(new_datas);
+                    new_datas.clear();//清空数据，因为已经是旧数据了
+                }
                     }
-                });
-                //****END
+                });//****END
+
+       button_get_weibo.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(getActivity(),"得到新的微博数据", Toast.LENGTH_SHORT).show();
+               getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
+           }
+       });//****END
+
+
     }//oncreat*/
+
+    private void getWeibo( ){
+
+        HttpUtil.sendOkHttpRequest("http://10.0.2.2/testjson.php",new okhttp3.Callback(){
+            @Override
+            public void onResponse(Call call, Response response)throws IOException {
+                //得到服务器返回内容
+                String responseData = response.body().string();
+                //处理内容：将返还的JSON数据组变成多个对象
+                parseJSONwithGSON(responseData);
+                //处理结束了
+
+                Log.e("log_tag", responseData);
+            }
+            @Override
+            public void onFailure(Call call,IOException e){
+                //对异常情况处理
+            }
+        });
+    }//getWeibo
+
+    private void parseJSONwithGSON(String jsonData){
+        Gson gson = new Gson();
+        //new_datas.clear();//清空新数据，保证里面永远是新的事物
+        new_datas = gson.fromJson(jsonData, new TypeToken<ArrayList<weibo>>(){
+        }.getType());//这样一来，新数据变成的多个新对象都在这里面了诶嘿。
+        weibo_id = new_datas.get(new_datas.size()-1).getId();//保存最新的微博id
+        /*for (weibo wb :new_datas){
+            Log.e("数据",wb.getwSpeak() );
+        }*/
+    }//parseJSONwithGSON
+
 
 }
