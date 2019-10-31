@@ -3,11 +3,9 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
-
-
     <ListView
 
-        android:id="@+id/list_weibo"
+        android:id="@+id/list_comment"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
     </ListView>
@@ -34,7 +32,7 @@
             android:hint="友好的评论是交流的起点..."
             android:background="#FFFF00"
             android:inputType="textMultiLine" >
-            </EditText>
+        </EditText>
 
         <Button
             android:layout_weight="3"

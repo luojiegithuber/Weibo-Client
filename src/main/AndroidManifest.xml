@@ -19,7 +19,9 @@
         </activity>
         <activity android:name=".PasswordActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name="com.example.followmyfinger.CommentActivity" />
+        <activity android:name=".CommentActivity"></activity>
     </application>
 
 </manifest>

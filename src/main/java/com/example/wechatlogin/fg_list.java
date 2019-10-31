@@ -3,6 +3,7 @@ package com.example.wechatlogin;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +26,7 @@ import okhttp3.Response;
 
 
 
-public class fg_list extends Fragment implements AdapterView.OnItemClickListener{
+public class fg_list extends Fragment implements AdapterView.OnItemClickListener,WeiboAdapter.Callback{
 
     private Button button_test,button_get_weibo;
     private WeiboAdapter myAdapter=null;
@@ -51,7 +52,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fg_list,null);
         list_weibo = (ListView) view.findViewById(R.id.list_weibo);
-        myAdapter = new WeiboAdapter(datas, getActivity());
+        myAdapter = new WeiboAdapter(datas, getActivity(),this);
         list_weibo.setAdapter(myAdapter);//适配器与ListView关联
         list_weibo.setOnItemClickListener(this);
 
@@ -125,5 +126,13 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.e("点击项目", "发生了啥" );
         Toast.makeText(getActivity(),"你点击了第" + position + "项",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void click(View v) {
+        Toast.makeText(getActivity(),"你点击了第"+(Integer)v.getTag()+"按钮项",Toast.LENGTH_SHORT).show();
+        Intent it = new Intent(getActivity(), CommentActivity.class);
+        startActivity(it);
+
     }
 }
