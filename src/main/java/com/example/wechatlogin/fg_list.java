@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import okhttp3.Response;
 
 
 
-public class fg_list extends Fragment {
+public class fg_list extends Fragment implements AdapterView.OnItemClickListener{
 
     private Button button_test,button_get_weibo;
     private WeiboAdapter myAdapter=null;
@@ -52,6 +53,7 @@ public class fg_list extends Fragment {
         list_weibo = (ListView) view.findViewById(R.id.list_weibo);
         myAdapter = new WeiboAdapter(datas, getActivity());
         list_weibo.setAdapter(myAdapter);//适配器与ListView关联
+        list_weibo.setOnItemClickListener(this);
 
         button_test=(Button)view.findViewById(R.id.button_test);
         button_get_weibo=(Button)view.findViewById(R.id.button_get_weibo);
@@ -119,5 +121,9 @@ public class fg_list extends Fragment {
         }*/
     }//parseJSONwithGSON
 
-
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.e("点击项目", "发生了啥" );
+        Toast.makeText(getActivity(),"你点击了第" + position + "项",Toast.LENGTH_SHORT).show();
+    }
 }
