@@ -28,7 +28,7 @@ import okhttp3.Response;
 
 public class fg_list extends Fragment implements AdapterView.OnItemClickListener,WeiboAdapter.Callback{
 
-    private Button button_test,button_get_weibo;
+    private Button button_test,button_get_weibo,button_comment;
     private WeiboAdapter myAdapter=null;
     private FragmentManager fManager;
     private ArrayList<weibo> datas,new_datas;
@@ -59,6 +59,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
         button_test=(Button)view.findViewById(R.id.button_test);
         button_get_weibo=(Button)view.findViewById(R.id.button_get_weibo);
 
+
         return view;
     }
     //在fragment不能直接进行点击事件，需要放到oncreatActivity中
@@ -87,6 +88,8 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
            }
        });//****END
+
+
 
 
     }//oncreat*/
@@ -131,8 +134,20 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
     @Override
     public void click(View v) {
         Toast.makeText(getActivity(),"你点击了第"+(Integer)v.getTag()+"按钮项",Toast.LENGTH_SHORT).show();
+
+
+        //**********传递ID过去*******//
+
         Intent it = new Intent(getActivity(), CommentActivity.class);
+        Bundle bd = new Bundle();
+        bd.putInt("weiboID",(Integer)v.getTag());
+        it.putExtras(bd);
         startActivity(it);
 
+        //*********传递结束*********//
+
     }
+
+
+
 }

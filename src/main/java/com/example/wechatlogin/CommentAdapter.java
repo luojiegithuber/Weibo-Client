@@ -44,7 +44,7 @@ class CommentAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return sayData.size();
     }
 
     @Override
@@ -54,7 +54,7 @@ class CommentAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
 }

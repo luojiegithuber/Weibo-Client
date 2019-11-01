@@ -38,7 +38,6 @@ public class fg_publish extends Fragment {
         btn=(Button)view.findViewById(R.id.button_publish);//获取【发表】按钮
         wcontent=(EditText)view.findViewById(R.id.edit_content);//获取编辑的文字【框】（记得转文字）
 
-
         return view;
     }
 
