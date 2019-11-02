@@ -42,6 +42,9 @@ public class MainActivity_WeChat extends AppCompatActivity {
             public void onClick(View v) {//登陆按钮监听事件
                 //创建intent对象
                 Intent it = new Intent(MainActivity_WeChat.this, HomeActivity.class);
+                Bundle bd = new Bundle();
+                bd.putString("username",edit_Username.getText().toString());//获得用户名字
+                it.putExtras(bd);
                 startActivity(it);
             }
         });

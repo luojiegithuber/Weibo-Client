@@ -44,4 +44,20 @@ public class HttpUtil {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    public static void sendOkHttpRequestPostComment_Publish(String name,String say, String weiboID,String address, okhttp3.Callback callback){
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("name",name)
+                .add("say",say)
+                .add("weiboID",weiboID)
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
 }

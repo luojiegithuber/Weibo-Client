@@ -22,6 +22,14 @@ class CommentAdapter extends BaseAdapter {
         this.sayContext = sayContext;
     }
 
+    public void addAll(ArrayList<Comment> data) {
+        if (sayData == null) {
+            sayData = new ArrayList<>();
+        }//判空
+        sayData.addAll(data);
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

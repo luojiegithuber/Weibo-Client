@@ -3,13 +3,13 @@ package com.example.wechatlogin;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +18,13 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //全局掌控的用户名
+    private String username;
+
+    Bundle bd=new Bundle();
+
     private long exittime=0;
     //按钮
-    private Button button_publish;//推送按钮
 
 
     //UI 对象
@@ -44,6 +48,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);//无标题
         setContentView(R.layout.activity_home);
 
+        Intent it =getIntent();
+        bd =it.getExtras();
+        username = bd.getString("username");
+
+
+
+
         //图标太大，变小点。。。
         png_to_icon(R.id.home_icon_1);
         png_to_icon(R.id.home_icon_2);
@@ -52,15 +63,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         fManager = getFragmentManager();
 
-        bindViews();
-        //tab_list.performClick();//模拟第一次点击，首次进入list界面
+        bindViews();//初始化绑定
+        tab_publish.performClick();//模拟第一次点击，首次进入list界面
 
         datas = new ArrayList<weibo>();
-        //测试一下
+
+        /*
         weibo data=new weibo(R.mipmap.ic_launcher,"Yao Jingxian","昨天00:30","睡不啄");
         weibo data2 =new weibo(R.mipmap.tabbar_home,"Luo Jie","昨天00:31","那就别睡");
         datas.add(data);
-        datas.add(data2);
+        datas.add(data2);*/
 
     }
 
@@ -68,7 +80,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void bindViews() {
         tab_publish = (TextView) findViewById(R.id.home_icon_1);
         tab_list = (TextView) findViewById(R.id.home_icon_2);
-        //button_publish = (Button)findViewById(R.id.button_publish);
 
         tab_publish.setOnClickListener(this);
         tab_list.setOnClickListener(this);
@@ -108,8 +119,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 tab_list.setSelected(true);
                 if(fglist == null){
                     //实例化一个fg
-                    fglist = new fg_list(fManager, datas);
-                    fTransaction.add(R.id.ly_content,fglist);
+                    fglist = new fg_list(fManager, datas);//传递管理者和数据集
+                    fglist.setArguments(bd);//将用户名传递过去
+                    fTransaction.add(R.id.ly_content,fglist);//将fglist加载到界面上
                     /*list = new fg_list();
                     fTransaction.add(R.id.ly_content,fglist);*/
                 }else{
@@ -153,6 +165,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // 数组下表0~3,依次是:左上右下
         drawable[1].setBounds(0,0, 100,100);
         textview.setCompoundDrawables(null, drawable[1],null, null);
+    }
+
+    public String getUsername(){
+        return username;
     }
 
 }

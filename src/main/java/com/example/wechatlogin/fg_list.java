@@ -1,6 +1,7 @@
 package com.example.wechatlogin;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -27,6 +28,8 @@ import okhttp3.Response;
 
 
 public class fg_list extends Fragment implements AdapterView.OnItemClickListener,WeiboAdapter.Callback{
+
+    private String username;
 
     private Button button_test,button_get_weibo,button_comment;
     private WeiboAdapter myAdapter=null;
@@ -55,6 +58,10 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
         myAdapter = new WeiboAdapter(datas, getActivity(),this);
         list_weibo.setAdapter(myAdapter);//适配器与ListView关联
         list_weibo.setOnItemClickListener(this);
+
+        new_datas=new ArrayList<weibo>();
+        Bundle bd =this.getArguments();
+        username = bd.getString("username");
 
         button_test=(Button)view.findViewById(R.id.button_test);
         button_get_weibo=(Button)view.findViewById(R.id.button_get_weibo);
@@ -85,7 +92,19 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
            @Override
            public void onClick(View v) {
                Toast.makeText(getActivity(),"得到新的微博数据", Toast.LENGTH_SHORT).show();
-               getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
+               new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       try {
+                           getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
+                           button_test.performClick();
+                       } catch (Exception e) {
+                           System.out.println(e.getMessage());
+                       }
+                   }
+               }).start();
+
+
            }
        });//****END
 
@@ -106,6 +125,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                 //处理结束了
 
                 Log.e("log_tag", responseData);
+
             }
             @Override
             public void onFailure(Call call,IOException e){
@@ -141,12 +161,19 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
         Intent it = new Intent(getActivity(), CommentActivity.class);
         Bundle bd = new Bundle();
         bd.putInt("weiboID",(Integer)v.getTag());
+        bd.putString("username",username);
         it.putExtras(bd);
         startActivity(it);
 
         //*********传递结束*********//
 
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+         username = ((HomeActivity) activity).getUsername();
+    }//通过强转成宿主activity，就可以获取到传递过来的数据
 
 
 

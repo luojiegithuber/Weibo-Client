@@ -27,6 +27,9 @@ import okhttp3.Response;
 
 public class fg_publish extends Fragment {
 
+    private String username;
+    private String time;
+
     private String web_string;
     private EditText wcontent;
     private View view;
