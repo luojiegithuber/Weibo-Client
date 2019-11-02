@@ -60,7 +60,9 @@ public class WeiboAdapter extends BaseAdapter implements View.OnClickListener {
         if (wData == null) {
             wData = new ArrayList<>();
         }//判空
+        wData.clear();//清空大数据
         wData.addAll(data);
+
         notifyDataSetChanged();
     }
 

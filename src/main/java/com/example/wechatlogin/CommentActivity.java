@@ -3,6 +3,8 @@ package com.example.wechatlogin;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,9 +32,26 @@ public class CommentActivity extends AppCompatActivity {
     private CommentAdapter cAdapter = null;
     private ListView list_comment;
     private int weiboID=new Integer(0);
-    private Button btn ;
+    private Button btn ,btn_update;
     private EditText edit_Comment;
 
+
+    final Handler myHandler = new Handler()
+    {
+        @Override
+        //重写handleMessage方法,根据msg中what的值判断是否执行后续操作
+        public void handleMessage(Message msg) {
+
+
+            for (Comment ct :new_cData){
+                Log.e("外面的的数据",ct.getSay() );
+            }
+
+            cAdapter.addAll(new_cData);
+
+            new_cData.clear();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +80,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    sendWeiboID(weiboID);//发送这个微博id，然后获取对应表的评论
+                    sendWeiboID( weiboID );
                 }catch (Exception e){
                      //处理错误
                 }
@@ -69,6 +88,8 @@ public class CommentActivity extends AppCompatActivity {
         }).start();
 
         btn=(Button)findViewById(R.id.button_comment);//获取【发表】按钮
+        btn_update = (Button)findViewById(R.id.button_update);//获取【更新】按钮
+
         edit_Comment=(EditText)findViewById(R.id.edit_comment);//获取【评论】区域
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -84,24 +105,33 @@ public class CommentActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
-
-
             }
+
+        });//****END
+
+
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("d","d");
+                sendWeiboID_noChange( weiboID );//处理new_datas
+            }
+
         });//****END
 
 
     }//oncreat
 
 
-
-    public void sendComment(String name,String say,String weiboID){
+//发送评论
+    public void sendComment(String name, String say, final String weiboID){
 
         HttpUtil.sendOkHttpRequestPostComment_Publish(name,say,weiboID,"http://10.0.2.2/sendComment.php",new okhttp3.Callback(){
             @Override
             public void onResponse(Call call, Response response)throws IOException{
                 //得到服务器返回内容
                 String responseData = response.body().string();
-                Log.e("log_tag", responseData);
+               //myHandler.sendEmptyMessage(0x123);
             }
             @Override
             public void onFailure(Call call,IOException e){
@@ -118,12 +148,11 @@ public class CommentActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response)throws IOException {
                 //得到服务器返回内容
                 String responseData = response.body().string();
-                Log.e("评论服务器返回数据", responseData);
-
 
                 //开始处理数据
                 parseJSONwithGSON(responseData);
-                cData.addAll(new_cData);
+                cAdapter.addAll(new_cData);///////////////////////////////////////
+                new_cData.clear();//加载完就清空吧
 
             }
             @Override
@@ -132,6 +161,32 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
     }//sendWeiboID
+
+    private void sendWeiboID_noChange( int weiboId){
+
+        HttpUtil.sendOkHttpRequestPostComment(weiboId,"http://10.0.2.2/getComment.php",new okhttp3.Callback(){
+            @Override
+            public void onResponse(Call call, Response response)throws IOException {
+                //得到服务器返回内容
+                String responseData = response.body().string();
+                Log.e("服务器此时的数据",responseData);
+
+                //开始处理数据
+                parseJSONwithGSON(responseData);
+
+       for (Comment ct :new_cData){
+            Log.e("更新完后的数据",ct.getSay() );
+        }
+                myHandler.sendEmptyMessage(0x123);
+
+            }
+            @Override
+            public void onFailure(Call call,IOException e){
+                //对异常情况处理
+            }
+        });
+    }//sendWeiboID
+
 
 
 

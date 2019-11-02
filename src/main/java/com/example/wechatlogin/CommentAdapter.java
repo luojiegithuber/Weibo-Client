@@ -26,8 +26,9 @@ class CommentAdapter extends BaseAdapter {
         if (sayData == null) {
             sayData = new ArrayList<>();
         }//判空
+        sayData.clear();
         sayData.addAll(data);
-        notifyDataSetChanged();
+        notifyDataSetChanged();//再重绘
     }
 
     @Override

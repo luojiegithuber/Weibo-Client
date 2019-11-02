@@ -97,7 +97,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                    public void run() {
                        try {
                            getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
-                           button_test.performClick();
+
                        } catch (Exception e) {
                            System.out.println(e.getMessage());
                        }
@@ -124,8 +124,6 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                 parseJSONwithGSON(responseData);
                 //处理结束了
 
-                Log.e("log_tag", responseData);
-
             }
             @Override
             public void onFailure(Call call,IOException e){
@@ -136,13 +134,8 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
 
     private void parseJSONwithGSON(String jsonData){
         Gson gson = new Gson();
-        //new_datas.clear();//清空新数据，保证里面永远是新的事物
         new_datas = gson.fromJson(jsonData, new TypeToken<ArrayList<weibo>>(){
         }.getType());//这样一来，新数据变成的多个新对象都在这里面了诶嘿。
-        weibo_id = new_datas.get(new_datas.size()-1).getId();//保存最新的微博id
-        /*for (weibo wb :new_datas){
-            Log.e("数据",wb.getwSpeak() );
-        }*/
     }//parseJSONwithGSON
 
     @Override

@@ -74,6 +74,10 @@ public class MainActivity_WeChat extends AppCompatActivity {
                                 //Toast toast=null;
                                 //创建intent对象
                                 Intent it = new Intent(MainActivity_WeChat.this,HomeActivity.class);
+
+                                Bundle bd = new Bundle();
+                                bd.putString("username",edit_Username.getText().toString());//获得用户名字
+                                it.putExtras(bd);
                                 startActivity(it);
                                 Looper.prepare();
                                 Toast.makeText(MainActivity_WeChat.this, "登陆成功！", Toast.LENGTH_SHORT).show();
