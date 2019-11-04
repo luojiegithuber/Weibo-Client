@@ -91,13 +91,13 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
        button_get_weibo.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Toast.makeText(getActivity(),"得到新的微博数据", Toast.LENGTH_SHORT).show();
+
                new Thread(new Runnable() {
                    @Override
                    public void run() {
                        try {
                            getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
-
+                           Toast.makeText(getActivity(),"得到新的微博数据", Toast.LENGTH_SHORT).show();
                        } catch (Exception e) {
                            System.out.println(e.getMessage());
                        }
@@ -123,6 +123,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                 //处理内容：将返还的JSON数据组变成多个对象
                 parseJSONwithGSON(responseData);
                 //处理结束了
+
 
             }
             @Override

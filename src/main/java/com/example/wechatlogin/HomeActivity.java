@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     //Fragment 对象
     private fg_list fglist;
     private fg_publish fgpublish;
+    private fg_me fgme;
     private FragmentManager fManager;//管理者，负责移除，显示，隐藏
 
     //
@@ -64,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fManager = getFragmentManager();
 
         bindViews();//初始化绑定
-        tab_publish.performClick();//模拟第一次点击，首次进入list界面
+        tab_me.performClick();//模拟第一次点击，首次进入list界面
 
         datas = new ArrayList<weibo>();
 
@@ -80,9 +81,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void bindViews() {
         tab_publish = (TextView) findViewById(R.id.home_icon_1);
         tab_list = (TextView) findViewById(R.id.home_icon_2);
+        tab_me = (TextView) findViewById(R.id.home_icon_4);
 
         tab_publish.setOnClickListener(this);
         tab_list.setOnClickListener(this);
+        tab_me.setOnClickListener(this);
 
     }
 
@@ -90,12 +93,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void setSelected(){
         tab_publish.setSelected(false);
         tab_list.setSelected(false);
+        tab_me.setSelected(false);
     }
 
     //隐藏所有Fragment
     private void hideAllFragment(FragmentTransaction fragmentTransaction){
         if(fgpublish != null)fragmentTransaction.hide(fgpublish);
         if(fglist != null)fragmentTransaction.hide(fglist);
+        if(fgme != null)fragmentTransaction.hide(fgme);
     }
 
     public void onClick(View v) {
@@ -126,6 +131,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     fTransaction.add(R.id.ly_content,fglist);*/
                 }else{
                     fTransaction.show(fglist);
+                }
+                break;
+            case R.id.home_icon_4:
+                setSelected();
+                tab_me.setSelected(true);
+                if(fgme == null){
+                    //实例化一个fg
+                    fgme = new fg_me();//传递管理者和数据集
+                    fgme.setArguments(bd);//将用户名传递过去
+                    fTransaction.add(R.id.ly_content,fgme);//将fglist加载到界面上
+
+                }else{
+                    fTransaction.show(fgme);
                 }
                 break;
         }
