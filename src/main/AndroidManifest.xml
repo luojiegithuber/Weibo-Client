@@ -3,6 +3,8 @@
     package="com.example.wechatlogin">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -20,7 +22,7 @@
         <activity android:name=".PasswordActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name="com.example.followmyfinger.CommentActivity" />
+
         <activity android:name=".CommentActivity"></activity>
     </application>
 

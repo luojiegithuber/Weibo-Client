@@ -16,11 +16,11 @@ public class HttpUtil {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void sendOkHttpRequestPostPublish(String content,String address, okhttp3.Callback callback){
+    public static void sendOkHttpRequestPostPublish(String name,String date ,String content,String address, okhttp3.Callback callback){
 
         RequestBody requestBody = new FormBody.Builder()
-                .add("username","yaojingxian")
-                .add("time","123456")
+                .add("username",name)
+                .add("time",date)
                 .add("content",content)
                 .build();
         OkHttpClient client = new OkHttpClient();

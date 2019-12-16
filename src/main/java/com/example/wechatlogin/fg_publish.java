@@ -1,6 +1,7 @@
 package com.example.wechatlogin;
 
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wechatlogin.util.HttpUtil;
@@ -21,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -34,12 +39,32 @@ public class fg_publish extends Fragment {
     private EditText wcontent;
     private View view;
     private Button btn;
+
+    private ImageView img;
+
+    private Uri imageUri;
+    private TextView pictureUse;//图片选择
+
+    SimpleDateFormat sd;
+
+
+    private static final int REQUEST_CODE_CHOOSE = 23;//定义请求码常量
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fg_publish,null);
 
         btn=(Button)view.findViewById(R.id.button_publish);//获取【发表】按钮
         wcontent=(EditText)view.findViewById(R.id.edit_content);//获取编辑的文字【框】（记得转文字）
+        pictureUse=(TextView)view.findViewById(R.id.pictureView) ;//获取【图片选择】文字框
+        img =(ImageView) view.findViewById(R.id.img) ;//获取【图片】
+
+        Bundle bd =this.getArguments();
+        username = bd.getString("username");
+
+        sd=new SimpleDateFormat("yyyy-MM-dd HH:mm E");
+        
 
         return view;
     }
@@ -48,6 +73,12 @@ public class fg_publish extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);//？？？？？？？？？
+
+       pictureUse.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+           }});
 
 
        btn.setOnClickListener(new View.OnClickListener() {
@@ -80,17 +111,16 @@ public class fg_publish extends Fragment {
                     }
                 }).start();
 
-
-
                 //****END
 
             }
         });//setOnClickListener*/
     }//oncreat
 
-    private void sendok( String content){
-
-        HttpUtil.sendOkHttpRequestPostPublish(wcontent.getText().toString(),"http://10.0.2.2/publish.php",new okhttp3.Callback(){
+    private void sendok(String content){
+        Date curDate =  new Date(System.currentTimeMillis());
+        time   =   sd.format(curDate);
+        HttpUtil.sendOkHttpRequestPostPublish(username,time,wcontent.getText().toString(),"http://10.0.2.2/publish.php",new okhttp3.Callback(){
             @Override
             public void onResponse(Call call, Response response)throws IOException{
                 //得到服务器返回内容
@@ -103,6 +133,7 @@ public class fg_publish extends Fragment {
             }
         });
     }
+
 
     private int publish()throws Exception{
         int returnResult=0;

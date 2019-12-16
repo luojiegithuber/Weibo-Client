@@ -69,11 +69,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         datas = new ArrayList<weibo>();
 
-        /*
-        weibo data=new weibo(R.mipmap.ic_launcher,"Yao Jingxian","昨天00:30","睡不啄");
-        weibo data2 =new weibo(R.mipmap.tabbar_home,"Luo Jie","昨天00:31","那就别睡");
-        datas.add(data);
-        datas.add(data2);*/
 
     }
 
@@ -114,6 +109,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 tab_publish.setSelected(true);
                 if(fgpublish == null){
                     fgpublish = new fg_publish();
+                    fgpublish.setArguments(bd);
                     fTransaction.add(R.id.ly_content,fgpublish);
                 }else{
                     fTransaction.show(fgpublish);

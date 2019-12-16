@@ -10,15 +10,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <!-- 定义一个用于显示头像的ImageView -->
-    <ImageView
-        android:id="@+id/imgtou"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:baselineAlignBottom="true"
-        android:paddingLeft="8dp" />
+        <ImageView
+            android:id="@+id/imgtou"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:baselineAlignBottom="true"
+            android:paddingLeft="8dp" />
 
-    <!-- 定义一个竖直方向的LinearLayout,把QQ呢称与说说的文本框设置出来 -->
+        <!-- 定义一个竖直方向的LinearLayout,把QQ呢称与说说的文本框设置出来 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="这是我要说的话
-        大家好"
-        android:textColor="#EA5246"
-        android:textStyle="bold|italic"
-        android:background="#FFFF00"
-        android:textSize="18sp" />
+        android:text="你爱我吗"
+        android:textColor="#000000"
+        android:background="#F0F8FF"
+        android:textSize="18sp"
+        android:lines="5"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,21 +70,21 @@
             android:layout_weight="1"
             android:id="@+id/bt_forward"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60px"
             android:background="#dddd"
             android:text="转发"/>
         <Button
             android:layout_weight="1"
             android:id="@+id/bt_comment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60px"
             android:background="#dddd"
             android:text="评论"/>
         <Button
             android:layout_weight="1"
             android:id="@+id/bt_star"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60px"
             android:background="#dddd"
             android:text="点赞"/>
 
