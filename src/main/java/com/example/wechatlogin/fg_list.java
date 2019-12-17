@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Response;
-
 
 
 public class fg_list extends Fragment implements AdapterView.OnItemClickListener,WeiboAdapter.Callback{
@@ -141,20 +141,23 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.e("点击项目", "发生了啥" );
-        Toast.makeText(getActivity(),"你点击了第" + position + "项",Toast.LENGTH_SHORT).show();
+
+        Adapter adpter=parent.getAdapter();
+        weibo item=(weibo)adpter.getItem(position);
+        Toast.makeText(getActivity(),"点击的id是："+item.getId(),Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void click(View v) {
-        Toast.makeText(getActivity(),"你点击了第"+(Integer)v.getTag()+"按钮项",Toast.LENGTH_SHORT).show();
-
-
+        //Toast.makeText(getActivity(),"你点击的项目排序："+v.getTag()+"",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"你点击的项目id："+((weibo)datas.get((Integer) v.getTag()-1)).getId()+"",Toast.LENGTH_SHORT).show();
         //**********传递ID过去*******//
+        long idid=((weibo)datas.get((Integer) v.getTag()-1)).getId();
 
         Intent it = new Intent(getActivity(), CommentActivity.class);
         Bundle bd = new Bundle();
-        bd.putInt("weiboID",(Integer)v.getTag());
+        bd.putInt("weiboID",(int)idid);
         bd.putString("username",username);
         it.putExtras(bd);
         startActivity(it);

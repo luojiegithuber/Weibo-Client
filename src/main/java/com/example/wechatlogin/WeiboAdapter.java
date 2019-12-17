@@ -40,7 +40,7 @@ public class WeiboAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return this.wData.get(position);
     }
 
     @Override
