@@ -41,7 +41,7 @@
         android:textColor="#767676"
         />
     <ImageView
-        android:id="@+id/img"
+        android:id="@+id/select_img"
         android:layout_width="match_parent"
         android:layout_height="100dp" />
 

@@ -46,4 +46,6 @@ dependencies {
     compile 'com.zhihu.android:matisse:0.5.0-alpha4'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.zhihu.android:matisse:0.5.0-alpha4'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

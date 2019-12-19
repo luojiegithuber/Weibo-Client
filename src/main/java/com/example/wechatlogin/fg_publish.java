@@ -1,6 +1,8 @@
 package com.example.wechatlogin;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
@@ -14,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.wechatlogin.util.HttpUtil;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import org.json.JSONObject;
 
@@ -26,9 +32,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 public class fg_publish extends Fragment {
 
@@ -40,7 +49,7 @@ public class fg_publish extends Fragment {
     private View view;
     private Button btn;
 
-    private ImageView img;
+    private ImageView select_img;
 
     private Uri imageUri;
     private TextView pictureUse;//图片选择
@@ -58,14 +67,16 @@ public class fg_publish extends Fragment {
         btn=(Button)view.findViewById(R.id.button_publish);//获取【发表】按钮
         wcontent=(EditText)view.findViewById(R.id.edit_content);//获取编辑的文字【框】（记得转文字）
         pictureUse=(TextView)view.findViewById(R.id.pictureView) ;//获取【图片选择】文字框
-        img =(ImageView) view.findViewById(R.id.img) ;//获取【图片】
+        select_img =(ImageView) view.findViewById(R.id.select_img) ;//获取【图片】
 
         Bundle bd =this.getArguments();
         username = bd.getString("username");
 
         sd=new SimpleDateFormat("yyyy-MM-dd HH:mm E");
-        
 
+
+        int resourceId = R.mipmap.ic_launcher;
+        Glide.with(this).load(resourceId).into(select_img);
         return view;
     }
 
@@ -77,8 +88,21 @@ public class fg_publish extends Fragment {
        pictureUse.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-
+               Log.e("【点击选择】", "点击了选择图片");
+               Matisse
+                       .from(getActivity())
+                       .choose(MimeType.ofImage())//照片视频全部显示
+                       .countable(true)//有序选择图片
+                       .maxSelectable(9)//最大选择数量为9
+                       .gridExpectedSize(120)//图片显示表格的大小getResources()
+                       .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//图像选择和预览活动所需的方向。
+                       .thumbnailScale(0.85f)//缩放比例
+                       .theme(R.style.Matisse_Zhihu)//主题  暗色主题 R.style.Matisse_Dracula
+                       .imageEngine(new GlideEngine())//加载方式
+                       .forResult(REQUEST_CODE_CHOOSE);//请求码
            }});
+
+
 
 
        btn.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +205,14 @@ public class fg_publish extends Fragment {
         return returnResult;
 
     }
-
+    List<Uri> mSelected;
+    @Override      //接收返回的地址
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            mSelected = Matisse.obtainResult(data);
+            Log.d("Matisse", "mSelected: " + mSelected);
+        }
+    }
 
 }

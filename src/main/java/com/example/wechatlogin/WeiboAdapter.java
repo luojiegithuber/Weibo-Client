@@ -88,7 +88,7 @@ public class WeiboAdapter extends BaseAdapter implements View.OnClickListener {
         txt_aSpeak.setText(wData.get(position).getwSpeak());
 
         btn_comment.setOnClickListener(this);
-        btn_comment.setTag(position+1);//函数说明
+        btn_comment.setTag(position+1);
 
         return convertView;
     }

@@ -41,15 +41,22 @@ public class CommentActivity extends AppCompatActivity {
         @Override
         //重写handleMessage方法,根据msg中what的值判断是否执行后续操作
         public void handleMessage(Message msg) {
+            if(msg.what == 0x123)
+            {
 
+                if(new_cData.isEmpty()){
+                    Log.e("newcdatas", "空的" );
+                }else{
+                    cAdapter.addAll(new_cData);
+                    new_cData.clear();//清空数据，因为已经是旧数据了
+                }
+            }
+            if(msg.what == 0x124)
+            {
 
-            for (Comment ct :new_cData){
-                Log.e("外面的的数据",ct.getSay() );
+                sendWeiboID_noChange( weiboID );
             }
 
-            cAdapter.addAll(new_cData);
-
-            new_cData.clear();
         }
     };
 
@@ -89,7 +96,6 @@ public class CommentActivity extends AppCompatActivity {
 
         btn=(Button)findViewById(R.id.button_comment);//获取【发表】按钮
         btn_update = (Button)findViewById(R.id.button_update);//获取【更新】按钮
-
         edit_Comment=(EditText)findViewById(R.id.edit_comment);//获取【评论】区域
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +106,7 @@ public class CommentActivity extends AppCompatActivity {
                     public void run() {
                         try {
                            sendComment(username,edit_Comment.getText().toString(),Integer.toString((int)weiboID));
+
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
@@ -113,7 +120,6 @@ public class CommentActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("d","d");
                 sendWeiboID_noChange( weiboID );//处理new_datas
             }
 
@@ -131,7 +137,7 @@ public class CommentActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response)throws IOException{
                 //得到服务器返回内容
                 String responseData = response.body().string();
-               //myHandler.sendEmptyMessage(0x123);
+                myHandler.sendEmptyMessage(0x124);
             }
             @Override
             public void onFailure(Call call,IOException e){
@@ -174,10 +180,6 @@ public class CommentActivity extends AppCompatActivity {
                 //开始处理数据
                 parseJSONwithGSON(responseData);
 
-       for (Comment ct :new_cData){
-            Log.e("更新完后的数据",ct.getSay() );
-        }
-                myHandler.sendEmptyMessage(0x123);
 
             }
             @Override
@@ -195,6 +197,7 @@ public class CommentActivity extends AppCompatActivity {
         Gson gson = new Gson();
         new_cData = gson.fromJson(jsonData, new TypeToken<ArrayList<Comment>>(){
         }.getType());//这样一来，新数据变成的多个新对象都在这里面了诶嘿。
+        myHandler.sendEmptyMessage(0x123);
     }//parseJSONwithGSON
 
 }

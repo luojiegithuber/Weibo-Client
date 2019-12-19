@@ -6,6 +6,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +52,23 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
         this.fManager = fManager;
         this.datas = datas;
     }
+    final Handler myHandler = new Handler()
+    {
+        @Override
+        //重写handleMessage方法,根据msg中what的值判断是否执行后续操作
+        public void handleMessage(Message msg) {
+            if(msg.what == 0x123)
+            {
 
+                if(new_datas.isEmpty()){
+                    Log.e("newdatas", "空的" );
+                }else{
+                    myAdapter.addAll(new_datas);
+                    new_datas.clear();//清空数据，因为已经是旧数据了
+                }
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,13 +97,20 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
        button_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(new_datas.isEmpty()){
-                    Log.e("new是空的", "空的" );
-                    Toast.makeText(getActivity(),"还没有新的微博数据", Toast.LENGTH_SHORT).show();
-                }else{
-                    myAdapter.addAll(new_datas);
-                    new_datas.clear();//清空数据，因为已经是旧数据了
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Looper.prepare();//增加部分
+                            getWeibo();// 发起网络请求get,得到服务器返回的数据并处理
+
+                            Looper.loop();//增加部分
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }).start();
+
                     }
                 });//****END
 
@@ -123,8 +149,6 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
                 //处理内容：将返还的JSON数据组变成多个对象
                 parseJSONwithGSON(responseData);
                 //处理结束了
-
-
             }
             @Override
             public void onFailure(Call call,IOException e){
@@ -137,6 +161,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
         Gson gson = new Gson();
         new_datas = gson.fromJson(jsonData, new TypeToken<ArrayList<weibo>>(){
         }.getType());//这样一来，新数据变成的多个新对象都在这里面了诶嘿。
+        myHandler.sendEmptyMessage(0x123);
     }//parseJSONwithGSON
 
     @Override
@@ -144,7 +169,7 @@ public class fg_list extends Fragment implements AdapterView.OnItemClickListener
 
         Adapter adpter=parent.getAdapter();
         weibo item=(weibo)adpter.getItem(position);
-        Toast.makeText(getActivity(),"点击的id是："+item.getId(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"点击的数据排序编号是："+item.getId(),Toast.LENGTH_SHORT).show();
 
     }
 
